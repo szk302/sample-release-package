@@ -133,6 +133,7 @@ RUN TMP_DIR=$(mktemp -d) && \
       curl --proto '=https' --tlsv1.2 -fsSL https://keybase.io/rust/pgp_keys.asc | gpg --import && \
       curl --proto '=https' --tlsv1.2 -fsSLO "https://static.rust-lang.org/dist/${RUST_FILE}" && \
       curl --proto '=https' --tlsv1.2 -fsSLO "https://static.rust-lang.org/dist/${RUST_FILE}.asc" && \
+      gpg --verify ${RUST_FILE}.asc ${RUST_FILE} && \
       tar -xzf "${RUST_FILE}" --strip-components=1 && \
       ./install.sh --verbose && \
       popd \
