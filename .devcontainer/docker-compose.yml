@@ -3,7 +3,7 @@ services:
     build:
       context: .
       args:
-        TZ: ${TZ:Asia/Tokyo}
+        TZ: ${TZ:-Asia/Tokyo}
         UID: ${UID:-1000}
         GID: ${GID:-1000}
         USER_NAME: ${USER_NAME:-dev}
