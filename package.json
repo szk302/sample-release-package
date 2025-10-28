@@ -1,0 +1,54 @@
+{
+  "name": "@szk302/sample-release-package",
+  "version": "0.1.0",
+  "description": "Document dependency tracking tool",
+  "type": "module",
+  "bin": {
+    "sample-release-package": "dist/cli.js"
+  },
+  "files": [
+    "dist/commands",
+    "dist/core",
+    "dist/cli.js",
+    "README.md"
+  ],
+  "keywords": [
+    "documentation",
+    "dependency",
+    "markdown",
+    "cli"
+  ],
+  "author": "szk302",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/szk302/sample-release-package.git"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "scripts": {
+    "check": "biome check",
+    "check:fix": "biome check --write",
+    "build": "tsc",
+    "dev": "tsx src/cli.ts",
+    "test": "node --test dist/test/*.js",
+    "test:dev": "tsx --test src/test/*.test.ts",
+    "prepublishOnly": "npm run build",
+    "release": "semantic-release"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.2.6",
+    "@commitlint/cli": "^20.1.0",
+    "@commitlint/config-conventional": "^20.0.0",
+    "@secretlint/secretlint-rule-preset-recommend": "^11.2.5",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@types/node": "^20.8.0",
+    "conventional-changelog-conventionalcommits": "^9.1.0",
+    "secretlint": "^11.2.5",
+    "semantic-release": "^25.0.1",
+    "tsx": "^4.20.6",
+    "typescript": "^5.2.2"
+  }
+}
