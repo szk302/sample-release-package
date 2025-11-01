@@ -1,6 +1,6 @@
 {
   "name": "@szk302/sample-release-package",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Document dependency tracking tool",
   "type": "module",
   "bin": {
@@ -46,6 +46,7 @@
     "@semantic-release/git": "^10.0.1",
     "@types/node": "^20.8.0",
     "conventional-changelog-conventionalcommits": "^9.1.0",
+    "lockfile-lint": "^4.14.1",
     "secretlint": "^11.2.5",
     "semantic-release": "^25.0.1",
     "tsx": "^4.20.6",

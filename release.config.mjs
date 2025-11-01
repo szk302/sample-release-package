@@ -29,6 +29,8 @@ export default {
       "@semantic-release/git",
       {
         assets: ["docs/CHANGELOG.md", "package.json", "package-lock.json"],
+        message:
+          "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
       },
     ],
     // 6. GitHub リリースを公開
