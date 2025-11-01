@@ -48,7 +48,7 @@
     "conventional-changelog-conventionalcommits": "^9.1.0",
     "lockfile-lint": "^4.14.1",
     "secretlint": "^11.2.5",
-    "semantic-release": "^25.0.1",
+    "semantic-release": "21.0.1",
     "tsx": "^4.20.6",
     "typescript": "^5.2.2"
   }
