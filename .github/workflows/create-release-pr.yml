@@ -51,7 +51,6 @@ jobs:
         if: ${{ github.event.inputs.version_type == 'auto' }}
         run: |
           git branch
-          git push --dry-run --no-verify https://github.com/szk302/sample-release-package.git HEAD:main
           npm run release
 
       - name: Remove git config
