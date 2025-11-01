@@ -35,6 +35,10 @@ jobs:
           node-version: '24.8.0'
           registry-url: 'https://registry.npmjs.org'
 
+      - name: Install dependencies
+        if: ${{ github.event.inputs.version_type == 'auto' }}
+        run: npm ci
+
       - name: Update version with semantic-release
         id: update-version-with-semantic-release
         if: ${{ github.event.inputs.version_type == 'auto' }}
