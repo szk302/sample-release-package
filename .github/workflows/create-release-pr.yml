@@ -41,6 +41,10 @@ jobs:
 
       - name: Set git config
         run: |
+          git switch -c releases/next
+
+      - name: Set git config
+        run: |
           git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
         env:
           GH_TOKEN: ${{ github.token }}

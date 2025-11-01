@@ -2,6 +2,7 @@
  * @type {import('semantic-release').GlobalConfig}
  */
 export default {
+  branches: ["releases/next"],
   plugins: [
     // 1. コミット履歴からバージョン番号を算出
     ["@semantic-release/commit-analyzer", { preset: "conventionalcommits" }],
