@@ -41,19 +41,20 @@ jobs:
 
       - name: Set git config
         run: |
-          git switch -c releases/next
-
-      - name: Set git config
-        run: |
           git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
         env:
           GH_TOKEN: ${{ github.token }}
           GITHUB_REPOSITORY: ${{ github.repository }}
 
+      - name: Create release branch
+        run: |
+          git switch -c releases/next
+
       - name: Update version with semantic-release
         id: update-version-with-semantic-release
         if: ${{ github.event.inputs.version_type == 'auto' }}
         run: |
+          git branch
           npm run release
 
       - name: Remove git config
