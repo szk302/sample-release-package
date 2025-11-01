@@ -36,5 +36,6 @@ export default {
     // ],
     // 6. GitHub リリースを公開
     // "@semantic-release/github",
-  ]
+  ],
+  dryRun: false,
 };
