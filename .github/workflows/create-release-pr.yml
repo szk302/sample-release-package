@@ -39,11 +39,23 @@ jobs:
         if: ${{ github.event.inputs.version_type == 'auto' }}
         run: npm ci
 
+      - name: Set git config
+        run: |
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+
       - name: Update version with semantic-release
         id: update-version-with-semantic-release
         if: ${{ github.event.inputs.version_type == 'auto' }}
         run: |
           npm run release
+
+      - name: Remove git config
+        if: always()
+        run: |
+          git remote rm origin
 
       - name: Update version with npm version
         id: update-version-with-npm-version
