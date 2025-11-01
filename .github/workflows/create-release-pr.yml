@@ -28,7 +28,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-
       - name: Setup Node.js
         uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
         with:
@@ -112,7 +111,7 @@ jobs:
 
       - name: Push branch
         run: |
-          git push -u origin "HEAD:release/v${VERSION}"
+          git push -u "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "HEAD:release/v$VERSION"
         env:
           VERSION: ${{ steps.version.outputs.version }}
           GH_TOKEN: ${{ github.token }}
