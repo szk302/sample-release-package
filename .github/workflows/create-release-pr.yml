@@ -7,6 +7,7 @@ on:
         description: 'Version type'
         type: choice
         options:
+          - auto
           - patch
           - minor
           - major
@@ -36,13 +37,13 @@ jobs:
 
       - name: Update version with semantic-release
         id: update-version-with-semantic-release
-        if: ${{ ! inputs.version_type }}
+        if: ${{ github.event.inputs.version_type == 'auto' }}
         run: |
           npm run release
 
       - name: Update version with npm version
         id: update-version-with-npm-version
-        if: ${{ inputs.version_type }}
+        if: ${{ github.event.inputs.version_type != 'auto' }}
         run: |
           npm version "$VERSION_TYPE" --no-git-tag-version
         env:
