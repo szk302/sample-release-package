@@ -41,20 +41,12 @@ jobs:
 
       - name: Set git config
         run: |
-          git config credential.helper 'cache --timeout=60'
-
-      - name: Set git config
-        run: |
           git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-        env:
-          GH_TOKEN: ${{ github.token }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
-      - name: Set git config
-        run: |
           git config "url.https://x-access-token:${GH_TOKEN}@github.com/.insteadOf" "https://github.com/"
         env:
           GH_TOKEN: ${{ github.token }}
           GITHUB_REPOSITORY: ${{ github.repository }}
+
       - name: Set git config
         run: |
           git push --dry-run --no-verify https://github.com/szk302/sample-release-package.git HEAD:test
@@ -63,13 +55,13 @@ jobs:
         id: update-version-with-semantic-release
         if: ${{ github.event.inputs.version_type == 'auto' }}
         run: |
-          git branch
           npm run release
 
       - name: Remove git config
         if: always()
         run: |
-          git remote rm origin
+          git config --remove-section "url.https://x-access-token:${GH_TOKEN}@github.com/"
+          git config --remove-section "remote.origin"
 
       - name: Update version with npm version
         id: update-version-with-npm-version
