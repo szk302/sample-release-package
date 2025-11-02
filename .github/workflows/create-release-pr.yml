@@ -41,7 +41,8 @@ jobs:
 
       - name: Set git config
         run: |
-          git config credential.helper '!f() { echo username=x-access-token; echo "password=$GH_TOKEN"; };f'
+          git config credential.helper 'cache --timeout=60'
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
         env:
           GH_TOKEN: ${{ github.token }}
           GITHUB_REPOSITORY: ${{ github.repository }}
