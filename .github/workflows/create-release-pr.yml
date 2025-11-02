@@ -52,7 +52,7 @@ jobs:
 
       - name: Set git config
         run: |
-          git push --dry-run --no-verify https://github.com/szk302/sample-release-package.git HEAD:main
+          git push --dry-run --no-verify https://github.com/szk302/sample-release-package.git HEAD:test
 
       - name: Update version with semantic-release
         id: update-version-with-semantic-release
