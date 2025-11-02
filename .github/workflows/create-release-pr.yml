@@ -45,13 +45,13 @@ jobs:
 
       - name: Set git config
         run: |
-          git remote set-url origin "https://${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
         env:
           GH_TOKEN: ${{ github.token }}
           GITHUB_REPOSITORY: ${{ github.repository }}
       - name: Set git config
         run: |
-          git config "url.https://${GH_TOKEN}@github.com/.insteadOf" "https://github.com/"
+          git config "url.https://x-access-token:${GH_TOKEN}@github.com/.insteadOf" "https://github.com/"
         env:
           GH_TOKEN: ${{ github.token }}
           GITHUB_REPOSITORY: ${{ github.repository }}
