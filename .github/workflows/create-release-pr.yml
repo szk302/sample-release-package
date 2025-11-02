@@ -58,7 +58,9 @@ jobs:
         run: |
           git config --remove-section "url.https://x-access-token:${GH_TOKEN}@github.com/"
           git config --remove-section "remote.origin"
-
+        env:
+          GH_TOKEN: ${{ github.token }}
+  
       - name: Update version with npm version
         id: update-version-with-npm-version
         if: ${{ github.event.inputs.version_type != 'auto' }}
