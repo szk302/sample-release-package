@@ -43,6 +43,7 @@ jobs:
       - name: Get version
         id: get-version
         run: |
+          git tag
           git-cliff --bump "auto" --context | jq
           git-cliff --bump "auto" --context | jq -r '.[0].version'
           VERSION=$(make "show-next-version-${VERSION_TYPE}")
