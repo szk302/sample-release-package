@@ -53,6 +53,9 @@ pre-commit:
     lockfile-lint:
       glob: "package-lock.json,yarn.lock"
       run: npx lockfile-lint --path package-lock.json --allowed-hosts npm yarn --validate-https
+    markdownlint:
+      glob: "*.md"
+      run: markdownlint-cli2 '**/*.md' --fix
     prevent-main-commit:
       only:
         - ref: main
