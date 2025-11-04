@@ -44,6 +44,7 @@ jobs:
         id: get-version
         run: |
           VERSION=$(make "show-next-version-${VERSION_TYPE}")
+          echo "version: $VERSION"
           echo "version=$VERSION" >> $GITHUB_OUTPUT
         env:
           VERSION_TYPE: ${{ github.event.inputs.version_type }}
