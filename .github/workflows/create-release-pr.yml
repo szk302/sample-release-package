@@ -134,14 +134,6 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           GITHUB_REPOSITORY: ${{ github.repository }}
 
-      - name: Remove git config
-        if: always()
-        run: |
-          git config --remove-section "url.https://x-access-token:${GH_TOKEN}@github.com/"
-          git config --remove-section "remote.origin"
-        env:
-          GH_TOKEN: ${{ github.token }}
-
       - name: Create Pull Request
         run: |
           echo "$RELEASE_NOTES" | gh pr create \
@@ -157,3 +149,11 @@ jobs:
           VERSION: ${{ steps.get-version.outputs.version }}
           BASE_BRANCH: ${{ github.ref_name }}
           ACTOR: ${{ github.actor }}
+
+      - name: Remove git config
+        if: always()
+        run: |
+          git config --remove-section "url.https://x-access-token:${GH_TOKEN}@github.com/"
+          git config --remove-section "remote.origin"
+        env:
+          GH_TOKEN: ${{ github.token }}
