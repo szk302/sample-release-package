@@ -9,6 +9,7 @@ ARG BUN_VERSION=1.2.19
 ARG DENO_VERSION=2.5.4
 ARG RUST_VERSION=1.90.0
 ARG UV_VERSION=0.9.0
+ARG GIT_CLIFF_VERSION=2.10.1
 ARG YQ_VERSION=v4.47.2
 ARG ARCH=x64
 ARG Q_VERSION=1.17.1
@@ -185,6 +186,28 @@ RUN curl --proto '=https' --tlsv1.2 -fsSL https://dl.cloudsmith.io/public/evilma
     lefthook --version
 
 # -------------------------------------------------------------------
+# git-cliff
+# -------------------------------------------------------------------
+RUN TMP_DIR=$(mktemp -d) && \
+    export TMP_DIR && \
+    ( \
+      pushd "${TMP_DIR}" && \
+      GIT_CLIFF_FILE="git-cliff-${GIT_CLIFF_VERSION}-x86_64-unknown-linux-gnu.tar.gz" && \
+      PGP_KEY="1D2D410A741137EBC544826F4A92FA17B6619297" && \
+      gpg --batch --keyserver hkps://keyserver.ubuntu.com --recv-key "${PGP_KEY}" && \
+      curl --proto '=https' --tlsv1.2 -fsSLO "https://github.com/orhun/git-cliff/releases/download/v${GIT_CLIFF_VERSION}/${GIT_CLIFF_FILE}" && \
+      curl --proto '=https' --tlsv1.2 -fsSLO "https://github.com/orhun/git-cliff/releases/download/v${GIT_CLIFF_VERSION}/${GIT_CLIFF_FILE}.sig" && \
+      curl --proto '=https' --tlsv1.2 -fsSLO "https://github.com/orhun/git-cliff/releases/download/v${GIT_CLIFF_VERSION}/${GIT_CLIFF_FILE}.sha512" && \
+      gpg --verify "${GIT_CLIFF_FILE}.sig" "${GIT_CLIFF_FILE}" && \
+      grep "${GIT_CLIFF_FILE}" "${GIT_CLIFF_FILE}.sha512" | sha512sum -c - && \
+      tar -xzf "${GIT_CLIFF_FILE}" --strip-components=1 && \
+      mv git-cliff git-cliff-completions git-cliff-mangen /usr/local/bin/ && \
+      popd \
+    ) && \
+      rm -rf "${TMP_DIR}" && \
+      git-cliff --version
+
+# -------------------------------------------------------------------
 # yq
 # -------------------------------------------------------------------
 RUN TMP_DIR=$(mktemp -d) && \
@@ -248,6 +271,8 @@ vK6FgOkDawgP0NPIP2oA/jIAO4gsAntuQgMOsPunEdDeji2t+AhV02+DQIsXZpoB\n\
 RUN npm install -g "@anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}" && \
     claude --version
 COPY --chown=${USER_NAME}:${USER_NAME} .claude /home/${USER_NAME}/.claude
+
+RUN npm i -g backlog.md
 
 # -------------------------------------------------------------------
 # エントリポイント

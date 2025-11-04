@@ -24,6 +24,11 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Install git-cliff
+        uses: taiki-e/install-action@1d76762916ba18e4f0c3b2f71fee3da83a279745 # v2.62.41
+        with:
+          tool: git-cliff
+
       - name: Configure Git
         run: |
           git config user.name "github-actions[bot]"
@@ -35,46 +40,27 @@ jobs:
           node-version: '22.14.0'
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Install dependencies
-        if: ${{ github.event.inputs.version_type == 'auto' }}
-        run: npm ci
-
-      - name: Set git config
+      - name: Get version
+        id: get-version
         run: |
-          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-          git config "url.https://x-access-token:${GH_TOKEN}@github.com/.insteadOf" "https://github.com/"
-        env:
-          GH_TOKEN: ${{ github.token }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
-
-      - name: Update version with semantic-release
-        id: update-version-with-semantic-release
-        if: ${{ github.event.inputs.version_type == 'auto' }}
-        run: |
-          npm run release
-
-      - name: Remove git config
-        if: always()
-        run: |
-          git config --remove-section "url.https://x-access-token:${GH_TOKEN}@github.com/"
-          git config --remove-section "remote.origin"
-        env:
-          GH_TOKEN: ${{ github.token }}
-  
-      - name: Update version with npm version
-        id: update-version-with-npm-version
-        if: ${{ github.event.inputs.version_type != 'auto' }}
-        run: |
-          npm version "$VERSION_TYPE" --no-git-tag-version
+          VERSION=$(make "show-next-version-${VERSION_TYPE}")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
         env:
           VERSION_TYPE: ${{ github.event.inputs.version_type }}
 
-      # No need to install dependencies - npm version works without them
-      - name: Get version
-        id: version
+      - name: Generate changelog
+        id: gen-changelog
         run: |
-          VERSION=$(jq -r '.version' package.json)
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          make "gen-changelog-${VERSION}"
+        env:
+          VERSION: ${{ steps.get-version.outputs.version }}
+
+      - name: Bump version
+        id: bump-version
+        run: |
+          make "bump-version-${VERSION}"
+        env:
+          VERSION: ${{ steps.get-version.outputs.version }}
 
       - name: Get release notes
         id: release-notes
@@ -120,7 +106,7 @@ jobs:
           echo "EOF" >> $GITHUB_ENV
         env:
           GH_TOKEN: ${{ github.token }}
-          VERSION: ${{ steps.version.outputs.version }}
+          VERSION: ${{ steps.get-version.outputs.version }}
           GITHUB_REPOSITORY: ${{ github.repository }}
 
       - name: Commit version bump
@@ -128,15 +114,31 @@ jobs:
           git add .
           git commit -m "chore: release v$VERSION"
         env:
-          VERSION: ${{ steps.version.outputs.version }}
+          VERSION: ${{ steps.get-version.outputs.version }}
+
+      - name: Set git config
+        run: |
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git config "url.https://x-access-token:${GH_TOKEN}@github.com/.insteadOf" "https://github.com/"
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
 
       - name: Push branch
         run: |
           git push -u "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "HEAD:release/v$VERSION"
         env:
-          VERSION: ${{ steps.version.outputs.version }}
+          VERSION: ${{ steps.get-version.outputs.version }}
           GH_TOKEN: ${{ github.token }}
           GITHUB_REPOSITORY: ${{ github.repository }}
+
+      - name: Remove git config
+        if: always()
+        run: |
+          git config --remove-section "url.https://x-access-token:${GH_TOKEN}@github.com/"
+          git config --remove-section "remote.origin"
+        env:
+          GH_TOKEN: ${{ github.token }}
 
       - name: Create Pull Request
         run: |
@@ -150,6 +152,6 @@ jobs:
             --draft
         env:
           GH_TOKEN: ${{ github.token }}
-          VERSION: ${{ steps.version.outputs.version }}
+          VERSION: ${{ steps.get-version.outputs.version }}
           BASE_BRANCH: ${{ github.ref_name }}
           ACTOR: ${{ github.actor }}
