@@ -1,11 +1,70 @@
-## 1.0.0 (2025-11-01)
+# Changelog
 
-### Features
+## [0.4.0] - 2025-11-04
 
-* **ci:** add auto version option to create-release-pr workflow ([f9be755](https://github.com/szk302/sample-release-package/commit/f9be75515ca04b957690c0fc27daa435d583ffed))
-* **ci:** add auto version option to create-release-pr workflow ([0db9e78](https://github.com/szk302/sample-release-package/commit/0db9e78d1fc88a620a907175a3e10435537df4f3))
+### 🚀 Features
 
-### Bug Fixes
+- *(test)* Test
+- Add calculator CLI application
 
-* **ci:** improve GitHub Actions workflows ([12e3c55](https://github.com/szk302/sample-release-package/commit/12e3c55a3a34861da5e735992bb3593128a9a946))
-* **ci:** simplify git push command in create-release-pr workflow ([bb1765e](https://github.com/szk302/sample-release-package/commit/bb1765e356ccd89428023a63d17b40a3562b99ca))
+### ⚙️ Miscellaneous Tasks
+
+- Setup development environment and build configuration
+- Add changelog generation configuration
+- Add TypeScript configuration
+
+## [0.3.0] - 2025-11-02
+
+### 🚀 Features
+
+- *(ci)* Add auto version option to create-release-pr workflow
+- *(ci)* Add auto version option to create-release-pr workflow
+
+### ⚙️ Miscellaneous Tasks
+
+- Add dependency installation for auto version workflow
+- Add dependency installation for auto version workflow
+- Update Node.js version in create-release-pr workflow
+- Update Node.js version in create-release-pr workflow
+- Add semantic-release configuration
+- Add semantic-release configuration
+- Disable CI mode in semantic-release configuration
+- Disable CI mode in semantic-release configuration
+- Add dryRun configuration to semantic-release
+- Add dryRun configuration to semantic-release
+- Migrate semantic-release config from .js to .mjs
+- Migrate semantic-release config from .js to .mjs
+- Add custom commit message for semantic-release git plugin
+- Add custom commit message for semantic-release git plugin
+- Add git remote configuration for semantic-release
+- Configure semantic-release for releases/next branch
+- Fix workflow step order and add branch debugging
+- Remove release branch creation from workflow
+- Disable git plugin in semantic-release configuration
+
+## [0.2.0] - 2025-11-01
+
+### 🐛 Bug Fixes
+
+- *(ci)* Simplify git push command in create-release-pr workflow
+- *(ci)* Improve GitHub Actions workflows
+
+### ⚙️ Miscellaneous Tasks
+
+- Add GitHub workflows and PR templates
+- Add GitHub workflows and PR templates
+
+## [0.1.0] - 2025-10-29
+
+### ⚙️ Miscellaneous Tasks
+
+- *(devcontainer)* Add development container configuration
+- *(devcontainer)* Update Dockerfile configuration
+- *(devcontainer)* Update configuration files
+- *(devcontainer)* Update docker-compose configuration
+- *(devcontainer)* Add development container configuration
+- *(devcontainer)* Add development container configuration
+- *(tools)* Add development tools configuration
+- *(biome)* Enable VCS integration and ignore file usage
+- *(lefthook)* Quote glob pattern for secretlint
+- *(tools)* Add development tools configuration
